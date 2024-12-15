@@ -1,11 +1,11 @@
-#provider "openstack" {
- # auth_url    = var.auth_url
-  #tenant_id   = var.project_id
-  #username    = var.username
-  #password    = var.password
-  #region      = var.region_name
-  #domain_name = var.user_domain_name
-#}
+provider "openstack" {
+  auth_url    = var.auth_url
+  tenant_id   = var.project_id
+  username    = var.username
+  password    = var.password
+  region      = var.region_name
+  domain_name = var.user_domain_name
+}
 
 resource "openstack_compute_instance_v2" "efremenko_infra_tf" {
   name            = var.instance_name
