@@ -8,34 +8,44 @@
         update_cache: yes
         upgrade: dist
 
-    - name: Install OpenJDK 17
+    - name: Install required dependencies
       apt:
-        name: openjdk-17-jre
-        state: present
-
-    - name: Install Docker
-      apt:
-        name: docker.io
+        name:
+          - openjdk-17-jre
+          - docker.io
+          - jq
+          - curl
         state: present
         update_cache: yes
 
-    - name: Install Docker Compose
-      become: yes
-      get_url:
-        url: "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)"
-        dest: /usr/local/bin/docker-compose
-        mode: 'u+x'
+    - name: Get the latest Docker Compose version
+      shell: |
+        curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name
+      register: compose_version
 
-    - name: Copy Docker Compose file to server
-      copy:
-        src: ./docker-compose.yml
-        dest: /opt/artstyle/docker-compose.yml
+    - name: Download Docker Compose
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/{{ compose_version.stdout }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+        dest: /usr/bin/docker-compose
+        mode: '0755'
+
+    - name: Create symlink for Docker Compose
+      file:
+        src: /usr/bin/docker-compose
+        dest: /usr/local/bin/docker-compose
+        state: link
 
     - name: Verify Docker installation
       command: docker --version
 
     - name: Verify Docker Compose installation
       command: docker-compose --version
+
+
+    # - name: Copy Docker Compose file to server
+    #   copy:
+    #     src: ./docker-compose.yml
+    #     dest: /opt/artstyle/docker-compose.yml
 
     # - name: Ensure .env file exists
     #   copy:
