@@ -25,10 +25,6 @@ resource "openstack_networking_port_v2" "port" {
   admin_state_up = true
 }
 
-output "instance_ip" {
-  value = openstack_compute_instance_v2.vm.access_ip_v4
-}
-
 # Дождаться доступности сервера по SSH
 resource "null_resource" "wait_for_ssh" {
   depends_on = [openstack_compute_instance_v2.efremenko_infra_tf]
