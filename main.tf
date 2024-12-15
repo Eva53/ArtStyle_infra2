@@ -33,7 +33,7 @@ resource "null_resource" "wait_for_ssh" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file(var.ssh_private_key_path)
+      private_key = "/home/user/ssh/id_rsa"
       host        = openstack_compute_instance_v2.efremenko_infra_tf.access_ip_v4
     }
 
