@@ -1,4 +1,4 @@
-resource "openstack_compute_instance_v2" "my_instance" {
+resource "openstack_compute_instance_v2" "efremenko_infra_tf" {
   name        = var.instance_name
   image_name  = var.image
   flavor_name = var.flavor
@@ -10,3 +10,5 @@ resource "openstack_compute_instance_v2" "my_instance" {
 
   security_groups = [var.security_group]
 }
+
+output "instance_ip" { value = openstack_compute_instance_v2.efremenko_infra_tf.access_ip_v4 }

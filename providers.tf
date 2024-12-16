@@ -1,5 +1,8 @@
 terraform {
   required_providers {
+    yandex = {
+      source = "yandex-cloud/yandex"
+    }
 
   openstack = {
       source  = "terraform-provider-openstack/openstack"

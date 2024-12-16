@@ -20,7 +20,7 @@ variable "flavor" {
 
 variable "network_name" {
   description = "Network to attach"
-  default     = "students-net"
+  default     = "sutdents-net"
 }
 
 variable "subnet_name" {
