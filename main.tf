@@ -19,3 +19,5 @@ resource "openstack_compute_instance_v2" "efremenko_infra_tf" {
 
   security_groups = [var.security_group]
 }
+
+output "instance_ip" { value = openstack_compute_instance_v2.efremenko_infra_tf.access_ip_v4 }
